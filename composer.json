@@ -1,0 +1,28 @@
+{
+  "name": "eureka/component-routing",
+  "description": "PHP routing library.",
+  "type": "library",
+  "license": "MIT",
+
+  "authors": [
+    {
+      "name": "Romain Cottard",
+      "email": "",
+      "role": "Developer"
+    }
+
+  ],
+
+  "autoload": {
+    "psr-4": {
+      "Eureka\\Component\\Routing": "./"
+    }
+  },
+
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/velkuns/component-routing"
+    }
+  ]
+}
