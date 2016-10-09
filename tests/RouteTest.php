@@ -9,20 +9,19 @@
 
 namespace Eureka\Component\Routing;
 
-require_once __DIR__ . '/../Route.php';
-require_once __DIR__ . '/../RouteCollection.php';
-require_once __DIR__ . '/../Parameter.php';
-require_once __DIR__ . '/../ParameterCollection.php';
+require_once __DIR__ . '/../src/Routing/RouteInterface.php';
+require_once __DIR__ . '/../src/Routing/Route.php';
+require_once __DIR__ . '/../src/Routing/RouteCollection.php';
+require_once __DIR__ . '/../src/Routing/Parameter.php';
+require_once __DIR__ . '/../src/Routing/ParameterCollection.php';
 
 /**
  * Class Test for Routing
  *
  * @author Romain Cottard
- * @version 2.1.0
  */
 class RouteTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Test Parameter & ParameterCollection classes
      *
@@ -69,8 +68,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
 
         //~ Collection
         $params = array(
-            $id,
-            $title,
+            $id, $title,
         );
 
         $parameterCollection = new ParameterCollection($params);
@@ -80,10 +78,12 @@ class RouteTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($id1, $id2);
 
-        $this->assertEquals($parameterCollection->getByPosition(0)->getName(), $id->getName());
-        $this->assertEquals($parameterCollection->getByPosition(1)->getName(), $title->getName());
-        $this->assertEquals($parameterCollection->getByPosition(2)->getName(), $author->getName());
-
+        $this->assertEquals($parameterCollection->getByPosition(0)
+            ->getName(), $id->getName());
+        $this->assertEquals($parameterCollection->getByPosition(1)
+            ->getName(), $title->getName());
+        $this->assertEquals($parameterCollection->getByPosition(2)
+            ->getName(), $author->getName());
         //$parameterCollection->
     }
 
@@ -109,13 +109,14 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $any  = new Parameter(':name', Parameter::TYPE_MIXED);
 
         $routes   = array();
-        $routes[] = new Route('test1', '/news/list', 'BlogController');
+        $routes[] = new Route('test1', '/news/list', 'BlogController::');
         $routes[] = new Route('test2', '/news/view', 'BlogController::view');
-        $routes[] = new Route('test3', '/news/view/:id', 'BlogController::', array(clone $id));
-        $routes[] = new Route('test4', '/news/view/:id-:name', 'BlogController::view', array(clone $id));
-        $routes[] = new Route('test5', '/news/edit/:id-:name.html', 'AnotherController::edit',
-            array(clone $id, clone $name));
-        $routes[] = new Route('test6', '/news/list/:id-:name/', 'BlogController::list', array(clone $id, clone $any));
+        $routes[] = new Route('test3', '/news/view/:id', 'BlogController::', array('id' => clone $id));
+        $routes[] = new Route('test4', '/news/view/:id-:name', 'BlogController::view', array('id' => clone $id));
+        $routes[] = new Route('test5', '/news/edit/:id-:name.html', 'AnotherController::edit', array(
+                'id' => clone $id, 'name' => clone $name,
+            ));
+        $routes[] = new Route('test6', '/news/list/:id-:name/', 'BlogController::list', array('id' => clone $id, 'name' => clone $any));
 
         $collection = RouteCollection::getInstance($routes);
 
@@ -136,14 +137,20 @@ class RouteTest extends \PHPUnit_Framework_TestCase
 
         $route = $collection->match('http://eureka-framework.com/news/view/5');
         $this->assertEquals($route->getName(), 'test3');
-        $this->assertTrue($route->getParameterCollection()->getByName('id')->getValue() === 5);
+        $this->assertTrue($route->getParameterCollection()
+                ->getByName('id')
+                ->getValue() === 5);
         $this->assertEquals($route->getControllerName(), 'BlogController');
         $this->assertEquals($route->getActionName(), 'index');
 
         $route = $collection->match('http://eureka-framework.com/news/edit/6-pagenewtitle.html');
         $this->assertEquals($route->getName(), 'test5');
-        $this->assertEquals($route->getParameterCollection()->getByName('id')->getValue(), 6);
-        $this->assertEquals($route->getParameterCollection()->getByName('name')->getValue(), 'pagenewtitle');
+        $this->assertEquals($route->getParameterCollection()
+            ->getByName('id')
+            ->getValue(), 6);
+        $this->assertEquals($route->getParameterCollection()
+            ->getByName('name')
+            ->getValue(), 'pagenewtitle');
         $this->assertEquals($route->getControllerName(), 'AnotherController');
         $this->assertEquals($route->getActionName(), 'edit');
 

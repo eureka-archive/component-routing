@@ -10,50 +10,45 @@
 namespace Eureka\Component\Routing;
 
 /**
- * Paramater Collection class.
+ * Parameter Collection class.
  *
  * @author Romain Cottard
- * @version 2.1.0
  */
 class ParameterCollection
 {
     /**
-     * Collection of Parameters (with name as key)
-     *
-     * @var Parameter[] $parametersByName
+     * @var Parameter[] $parametersByName Collection of Parameters (with name as key)
      */
     protected $parametersByName = array();
 
     /**
-     * Collection of Parameters (with position as key)
-     *
-     * @var Parameter[] $parameters
+     * @var Parameter[] $parameters Collection of Parameters (with position as key)
      */
     protected $parametersByPosition = array();
 
     /**
      * ParameterCollection constructor.
      *
-     * @param  Parameter[] $parameters Paramater to add
+     * @param  Parameter[] $parameters Parameter to add
      * @throws \Exception
      */
     public function __construct(Array $parameters = array())
     {
         foreach ($parameters as $parameter) {
-            $this->parametersByName[$parameter->getName()] = $parameter;
+            $this->parametersByName[$parameter->getName()]                  = $parameter;
             $this->parametersByPosition[count($this->parametersByPosition)] = $parameter;
         }
     }
 
     /**
-     * Add paramater to list
+     * Add paramter to list
      *
      * @param  Parameter $parameter
      * @return ParameterCollection
      */
     public function add(Parameter $parameter)
     {
-        $this->parametersByName[$parameter->getName()] = $parameter;
+        $this->parametersByName[$parameter->getName()]                  = $parameter;
         $this->parametersByPosition[count($this->parametersByPosition)] = $parameter;
 
         return $this;
@@ -62,7 +57,7 @@ class ParameterCollection
     /**
      * Check if has parameter by name.
      *
-     * @param $name
+     * @param  string $name
      * @return bool
      */
     public function hasByName($name)
@@ -115,5 +110,4 @@ class ParameterCollection
 
         return $this->parametersByPosition[$position];
     }
-
 }

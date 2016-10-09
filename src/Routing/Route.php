@@ -13,59 +13,46 @@ namespace Eureka\Component\Routing;
  * Route class.
  *
  * @author Romain Cottard
- * @version 2.1.0
  */
 class Route implements RouteInterface
 {
     /**
-     * Route name
-     *
-     * @var string $name
+     * @var string $name Route name
      */
     protected $name = '';
 
     /**
-     * Controller to use by the route
-     *
-     * @var string $controller
+     * @var string $controller Controller to use by the route
      */
     protected $controller = '';
 
     /**
-     * Action to call in controller
-     *
-     * @var string $action
+     * @var string $action Action to call in controller
      */
     protected $action = 'index';
 
     /**
-     * Route
-     *
-     * @var string $route
+     * @var string $route Route
      */
     protected $route = '';
 
     /**
-     * Route parameters
-     *
-     * @var ParameterCollection $parameterCollection
+     * @var ParameterCollection $parameterCollection Route parameters
      */
     protected $parameterCollection = null;
 
     /**
-     * Route pattern
-     *
-     * @var array $pattern
+     * @var array $pattern Route pattern
      */
     protected $pattern = '';
 
     /**
      * Route constructor.
      *
-     * @param string      $name Route name
-     * @param string      $route Route string (ie: /news/view/{:id}
-     * @param string      $controllerAction Controller::action
-     * @param Parameter[] $parameters Parameter, if necessary.
+     * @param  string      $name Route name
+     * @param  string      $route Route string (ie: /news/view/{:id}
+     * @param  string      $controllerAction Controller::action
+     * @param  Parameter[] $parameters Parameter, if necessary.
      * @throws \Exception
      */
     public function __construct($name, $route, $controllerAction, array $parameters = array())
@@ -82,11 +69,6 @@ class Route implements RouteInterface
         $this->action     = (!empty($controllerAction[1]) ? $controllerAction[1] : 'index');
 
         $this->parameterCollection = new ParameterCollection();
-
-        /*$parametersByName = array();
-        foreach($parameters as $parameter) {
-            $parametersByName[$parameter->getName()] = $parameter;
-        }*/
 
         $this->build($parameters);
     }
@@ -170,7 +152,8 @@ class Route implements RouteInterface
      *
      * @return ParameterCollection
      */
-    public function getParameterCollection() {
+    public function getParameterCollection()
+    {
         return $this->parameterCollection;
     }
 
@@ -213,13 +196,13 @@ class Route implements RouteInterface
         }
 
         $path = isset($url['path']) ? $url['path'] : '';
-        //$query = isset($url['query']) ? $url['query'] : '';
 
         if ((bool) preg_match($this->pattern, $path, $matches)) {
             array_shift($matches);
 
             foreach ($matches as $position => $value) {
-                $this->parameterCollection->getByPosition($position)->setValue($value);
+                $this->parameterCollection->getByPosition($position)
+                    ->setValue($value);
             }
 
             return true;

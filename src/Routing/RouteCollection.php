@@ -13,21 +13,16 @@ namespace Eureka\Component\Routing;
  * Route Collection class.
  *
  * @author Romain Cottard
- * @version 2.1.0
  */
 class RouteCollection
 {
     /**
-     * Current class instance.
-     *
-     * @var RouteCollection $instance
+     * @var RouteCollection $instance Current class instance.
      */
     protected static $instance = null;
 
     /**
-     * Collection of Routes
-     *
-     * @var Route[] $routes
+     * @var Route[] $routes Collection of Routes
      */
     protected $routes = array();
 
@@ -72,12 +67,12 @@ class RouteCollection
      * Add routes data from configuration file.
      *
      * @param  array $config
-     * @return RouteCollection
+     * @return self
      */
     public function addFromConfig(array $config)
     {
         foreach ($config as $name => $data) {
-            $params = isset($data['params']) ? $data['params'] : array();
+            $params     = isset($data['params']) ? $data['params'] : array();
             $parameters = array();
             foreach ($params as $nameParam => $param) {
                 if (empty($params['type'])) {
@@ -105,6 +100,8 @@ class RouteCollection
             }
             $this->add(new Route($name, $data['route'], $data['controller'], $parameters));
         }
+
+        return $this;
     }
 
     /**

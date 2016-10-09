@@ -13,7 +13,6 @@ namespace Eureka\Component\Routing;
  * Route interface.
  *
  * @author Romain Cottard
- * @version 2.1.0
  */
 interface RouteInterface
 {
