@@ -40,7 +40,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     {
         $id     = new Parameter(':id', Parameter::TYPE_INTEGER);
         $title  = new Parameter(':title');
-        $author = new Parameter('author', Parameter::TYPE_MIXED);
+        $author = new Parameter('author', Parameter::TYPE_ANY);
 
         //~ ID
         $this->assertEquals($id->getName(), ':id');
@@ -60,7 +60,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
 
         //~ Author
         $this->assertEquals($author->getName(), ':author');
-        $this->assertEquals($author->getType(), Parameter::TYPE_MIXED);
+        $this->assertEquals($author->getType(), Parameter::TYPE_ANY);
         $this->assertEquals($author->getValue(), '');
 
         $author->setValue('666');
@@ -106,7 +106,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     {
         $id   = new Parameter(':id', Parameter::TYPE_INTEGER);
         $name = new Parameter(':name');
-        $any  = new Parameter(':name', Parameter::TYPE_MIXED);
+        $any  = new Parameter(':name', Parameter::TYPE_ANY);
 
         $routes   = array();
         $routes[] = new Route('test1', '/news/list', 'BlogController::');

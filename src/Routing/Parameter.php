@@ -27,9 +27,9 @@ class Parameter
     const TYPE_INTEGER = '[0-9]+';
 
     /**
-     * @var string TYPE_MIXED Type mixed
+     * @var string TYPE_ANY Type any
      */
-    const TYPE_MIXED = '.+';
+    const TYPE_ANY = '.+';
 
     /**
      * @var string $name Parameter name
@@ -118,7 +118,7 @@ class Parameter
                 $this->value = (int) $value;
                 break;
             case Parameter::TYPE_STRING:
-            case Parameter::TYPE_MIXED:
+            case Parameter::TYPE_ANY:
             default:
                 $this->value = (string) $value;
         }

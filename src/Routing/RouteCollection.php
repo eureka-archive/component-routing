@@ -32,7 +32,7 @@ class RouteCollection
      * @param  Route[] $routes Route to add
      * @throws \Exception
      */
-    protected function __construct($routes = array())
+    public function __construct($routes = array())
     {
         $this->routes = $routes;
     }
