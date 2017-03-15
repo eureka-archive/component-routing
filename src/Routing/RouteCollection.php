@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (c) 2010-2016 Romain Cottard
+ * Copyright (c) 2010-2017 Romain Cottard
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -27,17 +27,6 @@ class RouteCollection
     protected $routes = array();
 
     /**
-     * RouteCollection constructor.
-     *
-     * @param  Route[] $routes Route to add
-     * @throws \Exception
-     */
-    public function __construct($routes = array())
-    {
-        $this->routes = $routes;
-    }
-
-    /**
      * Get current class instance.
      *
      * @param  Route[] $routes Route to add
@@ -50,6 +39,17 @@ class RouteCollection
         }
 
         return static::$instance;
+    }
+
+    /**
+     * RouteCollection constructor.
+     *
+     * @param  Route[] $routes Route to add
+     * @throws \Exception
+     */
+    public function __construct($routes = array())
+    {
+        $this->routes = $routes;
     }
 
     /**
@@ -155,7 +155,7 @@ class RouteCollection
         }
 
         if (!($routeFound instanceof RouteInterface) && $redirect404 === true) {
-            $routeFound = $this->match('/page-not-found', false);
+            $routeFound = $this->get('error404');
         }
 
         return $routeFound;
