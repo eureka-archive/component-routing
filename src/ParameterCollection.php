@@ -1,7 +1,7 @@
 <?php
 
-/**
- * Copyright (c) 2010-2017 Romain Cottard
+/*
+ * Copyright (c) Romain Cottard
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,21 +16,16 @@ namespace Eureka\Component\Routing;
  */
 class ParameterCollection
 {
-    /**
-     * @var Parameter[] $parametersByName Collection of Parameters (with name as key)
-     */
+    /** @var Parameter[] $parametersByName Collection of Parameters (with name as key) */
     protected $parametersByName = array();
 
-    /**
-     * @var Parameter[] $parameters Collection of Parameters (with position as key)
-     */
+    /** @var Parameter[] $parameters Collection of Parameters (with position as key) */
     protected $parametersByPosition = array();
 
     /**
      * ParameterCollection constructor.
      *
      * @param  Parameter[] $parameters Parameter to add
-     * @throws \Exception
      */
     public function __construct(Array $parameters = array())
     {
@@ -41,7 +36,7 @@ class ParameterCollection
     }
 
     /**
-     * Add paramter to list
+     * Add parameter to list
      *
      * @param  Parameter $parameter
      * @return ParameterCollection
@@ -76,7 +71,7 @@ class ParameterCollection
      *
      * @param  string $name
      * @return Parameter
-     * @throws \Exception
+     * @throws \Eureka\Component\Routing\Exception\ParameterException
      */
     public function getByName($name)
     {
@@ -87,7 +82,7 @@ class ParameterCollection
         }
 
         if (!isset($this->parametersByName[$name])) {
-            throw new \Exception('Parameter is not defined !');
+            throw new Exception\ParameterException('Parameter is not defined !');
         }
 
         return $this->parametersByName[$name];
@@ -98,14 +93,14 @@ class ParameterCollection
      *
      * @param  integer $position
      * @return Parameter
-     * @throws \Exception
+     * @throws \Eureka\Component\Routing\Exception\ParameterException
      */
     public function getByPosition($position)
     {
         $position = (int) $position;
 
         if (!isset($this->parametersByPosition[$position])) {
-            throw new \Exception('Parameter is not defined !');
+            throw new Exception\ParameterException('Parameter is not defined !');
         }
 
         return $this->parametersByPosition[$position];

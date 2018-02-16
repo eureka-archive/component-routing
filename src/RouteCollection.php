@@ -1,7 +1,7 @@
 <?php
 
-/**
- * Copyright (c) 2010-2017 Romain Cottard
+/*
+ * Copyright (c) Romain Cottard
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,14 +16,10 @@ namespace Eureka\Component\Routing;
  */
 class RouteCollection
 {
-    /**
-     * @var RouteCollection $instance Current class instance.
-     */
+    /** @var RouteCollection $instance Current class instance. */
     protected static $instance = null;
 
-    /**
-     * @var Route[] $routes Collection of Routes
-     */
+    /** @var Route[] $routes Collection of Routes */
     protected $routes = array();
 
     /**
@@ -45,7 +41,6 @@ class RouteCollection
      * RouteCollection constructor.
      *
      * @param  Route[] $routes Route to add
-     * @throws \Exception
      */
     public function __construct($routes = array())
     {
@@ -67,7 +62,8 @@ class RouteCollection
      * Add routes data from configuration file.
      *
      * @param  array $config
-     * @return self
+     * @return $this
+     * @throws \Eureka\Component\Routing\Exception\RoutingException
      */
     public function addFromConfig(array $config)
     {
@@ -86,7 +82,7 @@ class RouteCollection
                         break;
 
                     case 'mixed':
-                        $param['type'] = Parameter::TYPE_MIXED;
+                        $param['type'] = Parameter::TYPE_ANY;
                         break;
 
                     case 'string':
@@ -122,12 +118,12 @@ class RouteCollection
      *
      * @param  string $name
      * @return Route
-     * @throws \DomainException
+     * @throws \Eureka\Component\Routing\Exception\RouteNotFoundException
      */
     public function get($name)
     {
         if (!isset($this->routes[$name])) {
-            throw new \DomainException('Route does not exist!');
+            throw new Exception\RouteNotFoundException('Route does not exist! (name: ' . $name . ')');
         }
 
         return $this->routes[$name];
@@ -139,7 +135,8 @@ class RouteCollection
      * @param  string $url
      * @param  bool   $redirect404
      * @return Route|null
-     * @throws \Exception
+     * @throws \Eureka\Component\Routing\Exception\RoutingException
+     * @throws \Eureka\Component\Routing\Exception\ParameterException
      */
     public function match($url, $redirect404 = true)
     {

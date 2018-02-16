@@ -1,7 +1,7 @@
 <?php
 
-/**
- * Copyright (c) 2010-2017 Romain Cottard
+/*
+ * Copyright (c) Romain Cottard
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,39 +16,25 @@ namespace Eureka\Component\Routing;
  */
 class Parameter
 {
-    /**
-     * @var string TYPE_STRING Type string
-     */
+    /** @var string TYPE_STRING Type string */
     const TYPE_STRING = '[\w_-]+';
 
-    /**
-     * @var string TYPE_INTEGER Type integer
-     */
+    /** @var string TYPE_INTEGER Type integer */
     const TYPE_INTEGER = '[0-9]+';
 
-    /**
-     * @var string TYPE_ANY Type any
-     */
+    /** @var string TYPE_ANY Type any */
     const TYPE_ANY = '.+';
 
-    /**
-     * @var string $name Parameter name
-     */
+    /** @var string $name Parameter name */
     protected $name = '';
 
-    /**
-     * @var string $type Parameter type
-     */
+    /** @var string $type Parameter type */
     protected $type = '';
 
-    /**
-     * @var mixed $value Parameter value
-     */
+    /** @var mixed $value Parameter value */
     protected $value = null;
 
-    /**
-     * @var bool $isMandatory
-     */
+    /** @var bool $isMandatory */
     protected $isMandatory = true;
 
     /**

@@ -1,7 +1,7 @@
 <?php
 
-/**
- * Copyright (c) 2010-2017 Romain Cottard
+/*
+ * Copyright (c) Romain Cottard
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,34 +16,22 @@ namespace Eureka\Component\Routing;
  */
 class Route implements RouteInterface
 {
-    /**
-     * @var string $name Route name
-     */
+    /** @var string $name Route name */
     protected $name = '';
 
-    /**
-     * @var string $controller Controller to use by the route
-     */
+    /** @var string $controller Controller to use by the route */
     protected $controller = '';
 
-    /**
-     * @var string $action Action to call in controller
-     */
+    /** @var string $action Action to call in controller */
     protected $action = 'index';
 
-    /**
-     * @var string $route Route
-     */
+    /** @var string $route Route */
     protected $route = '';
 
-    /**
-     * @var ParameterCollection $parameterCollection Route parameters
-     */
+    /** @var ParameterCollection $parameterCollection Route parameters */
     protected $parameterCollection = null;
 
-    /**
-     * @var array $pattern Route pattern
-     */
+    /** @var string $pattern Route pattern */
     protected $pattern = '';
 
     /**
@@ -53,7 +41,7 @@ class Route implements RouteInterface
      * @param  string      $route Route string (ie: /news/view/{:id}
      * @param  string      $controllerAction Controller::action
      * @param  Parameter[] $parameters Parameter, if necessary.
-     * @throws \Exception
+     * @throws \Eureka\Component\Routing\Exception\RoutingException
      */
     public function __construct($name, $route, $controllerAction, array $parameters = array())
     {
@@ -62,7 +50,7 @@ class Route implements RouteInterface
 
         $controllerAction = explode('::', $controllerAction);
         if (empty($controllerAction[0])) {
-            throw new \Exception('Controller must be defined !');
+            throw new Exception\RoutingException('Controller must be defined !');
         }
 
         $this->controller = $controllerAction[0];
@@ -186,13 +174,14 @@ class Route implements RouteInterface
      *
      * @param  string $url
      * @return boolean
-     * @throws \Exception
+     * @throws \Eureka\Component\Routing\Exception\RoutingException
+     * @throws \Eureka\Component\Routing\Exception\ParameterException
      */
     public function verify($url)
     {
         $url = parse_url($url);
         if ($url === false) {
-            throw new \Exception('Bad url to match (not an url ?)');
+            throw new Exception\RoutingException('Bad url to match (not an url ?)');
         }
 
         $path = isset($url['path']) ? $url['path'] : '';

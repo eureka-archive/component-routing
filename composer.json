@@ -14,7 +14,7 @@
 
   "autoload": {
     "psr-4": {
-      "Eureka\\Component\\Routing\\": "./src/Routing/"
+      "Eureka\\Component\\Routing\\": "./src/"
     }
   }
 
