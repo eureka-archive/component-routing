@@ -14,48 +14,20 @@ namespace Eureka\Component\Routing;
  *
  * @author Romain Cottard
  */
-class RouteCollection
+class Router
 {
-    /** @var RouteCollection $instance Current class instance. */
-    protected static $instance = null;
-
     /** @var Route[] $routes Collection of Routes */
-    protected $routes = array();
+    protected $routes = [];
 
     /**
-     * Get current class instance.
+     * Router constructor.
      *
-     * @param  Route[] $routes Route to add
-     * @return RouteCollection
+     * @param  array $routes Routes to add
+     * @throws \Eureka\Component\Routing\Exception\RoutingException
      */
-    public static function getInstance($routes = array())
+    public function __construct($routes = [])
     {
-        if (null === static::$instance) {
-            static::$instance = new RouteCollection($routes);
-        }
-
-        return static::$instance;
-    }
-
-    /**
-     * RouteCollection constructor.
-     *
-     * @param  Route[] $routes Route to add
-     */
-    public function __construct($routes = array())
-    {
-        $this->routes = $routes;
-    }
-
-    /**
-     * Create new instance of RouteCollection.
-     *
-     * @param  array $routes
-     * @return RouteCollection
-     */
-    public static function newInstance($routes = array())
-    {
-        return new RouteCollection($routes);
+        $this->addFromConfig($routes);
     }
 
     /**
@@ -65,33 +37,30 @@ class RouteCollection
      * @return $this
      * @throws \Eureka\Component\Routing\Exception\RoutingException
      */
-    public function addFromConfig(array $config)
+    protected function addFromConfig(array $config)
     {
         foreach ($config as $name => $data) {
-            $params     = isset($data['params']) ? $data['params'] : array();
-            $parameters = array();
+            $params     = isset($data['params']) ? $data['params'] : [];
+            $parameters = [];
             foreach ($params as $nameParam => $param) {
                 if (empty($params['type'])) {
                     $params['type'] = 'string';
                 }
 
                 switch ($param['type']) {
-
                     case 'int':
                         $param['type'] = Parameter::TYPE_INTEGER;
                         break;
-
                     case 'mixed':
                         $param['type'] = Parameter::TYPE_ANY;
                         break;
-
                     case 'string':
                         $param['type'] = Parameter::TYPE_STRING;
                         break;
-
                     default:
                         // Consider  current value as regexp
                 }
+
                 $parameters[$nameParam] = new Parameter($nameParam, $param['type'], (bool) $param['mandatory']);
             }
             $this->add(new Route($name, $data['route'], $data['controller'], $parameters));
@@ -104,7 +73,7 @@ class RouteCollection
      * Add route to list
      *
      * @param  Route $route
-     * @return RouteCollection
+     * @return Router
      */
     public function add(Route $route)
     {
@@ -133,7 +102,7 @@ class RouteCollection
      * Try to find a route that match the specified url.
      *
      * @param  string $url
-     * @param  bool   $redirect404
+     * @param  bool $redirect404
      * @return Route|null
      * @throws \Eureka\Component\Routing\Exception\RoutingException
      * @throws \Eureka\Component\Routing\Exception\ParameterException

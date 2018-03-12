@@ -1,7 +1,7 @@
 <?php
 
-/**
- * Copyright (c) 2010-2016 Romain Cottard
+/*
+ * Copyright (c) Romain Cottard
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,7 +11,7 @@ namespace Eureka\Component\Routing;
 
 require_once __DIR__ . '/../src/Routing/RouteInterface.php';
 require_once __DIR__ . '/../src/Routing/Route.php';
-require_once __DIR__ . '/../src/Routing/RouteCollection.php';
+require_once __DIR__ . '/../src/Routing/Router.php';
 require_once __DIR__ . '/../src/Routing/Parameter.php';
 require_once __DIR__ . '/../src/Routing/ParameterCollection.php';
 
@@ -98,9 +98,9 @@ class RouteTest extends \PHPUnit_Framework_TestCase
      * @covers Route::getActionName
      * @covers Route::getControllerName
      * @covers Route::getName
-     * @covers RouteCollection::__construct
-     * @covers RouteCollection::match
-     * @covers RouteCollection::add
+     * @covers Router::__construct
+     * @covers Router::match
+     * @covers Router::add
      */
     public function testRoute()
     {
@@ -118,7 +118,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
             ));
         $routes[] = new Route('test6', '/news/list/:id-:name/', 'BlogController::list', array('id' => clone $id, 'name' => clone $any));
 
-        $collection = RouteCollection::getInstance($routes);
+        $collection = Router::getInstance($routes);
 
         $route = $collection->match('http://eureka-framework.com/news/list?view=block');
         $this->assertEquals($route->getName(), 'test1');

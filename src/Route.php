@@ -43,7 +43,7 @@ class Route implements RouteInterface
      * @param  Parameter[] $parameters Parameter, if necessary.
      * @throws \Eureka\Component\Routing\Exception\RoutingException
      */
-    public function __construct($name, $route, $controllerAction, array $parameters = array())
+    public function __construct($name, $route, $controllerAction, array $parameters = [])
     {
         $this->name  = $name;
         $this->route = $route;
@@ -70,7 +70,7 @@ class Route implements RouteInterface
     protected function build(array $parameters)
     {
         $route    = preg_split('`([/.-])`', $this->route, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-        $regex    = array();
+        $regex    = [];
         $position = 0;
 
         foreach ($route as $index => $element) {
@@ -158,7 +158,7 @@ class Route implements RouteInterface
      * @param  array $params
      * @return string
      */
-    public function getUri($params = array())
+    public function getUri($params = [])
     {
         $uri = $this->route;
 

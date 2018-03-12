@@ -17,17 +17,17 @@ namespace Eureka\Component\Routing;
 class ParameterCollection
 {
     /** @var Parameter[] $parametersByName Collection of Parameters (with name as key) */
-    protected $parametersByName = array();
+    protected $parametersByName = [];
 
     /** @var Parameter[] $parameters Collection of Parameters (with position as key) */
-    protected $parametersByPosition = array();
+    protected $parametersByPosition = [];
 
     /**
      * ParameterCollection constructor.
      *
      * @param  Parameter[] $parameters Parameter to add
      */
-    public function __construct(Array $parameters = array())
+    public function __construct(Array $parameters = [])
     {
         foreach ($parameters as $parameter) {
             $this->parametersByName[$parameter->getName()]                  = $parameter;
