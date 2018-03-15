@@ -22,12 +22,14 @@ class Router
     /**
      * Router constructor.
      *
-     * @param  array $routes Routes to add
      * @throws \Eureka\Component\Routing\Exception\RoutingException
      */
-    public function __construct($routes = [])
+    public function __construct()
     {
-        $this->addFromConfig($routes);
+        //~ Each arguments must be a list of routes from configs files.
+        foreach (func_get_args() as $routes) {
+            $this->addFromConfig($routes);
+        }
     }
 
     /**
